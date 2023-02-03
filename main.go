@@ -19,6 +19,16 @@ import (
 // Internal methods
 // ----------------------------------------------------------------------------
 
+func deferTest(ctx context.Context) error {
+	defer fmt.Println("A")
+	defer fmt.Println("B")
+	defer fmt.Println("C")
+	for _, value := range []int{1, 2, 3, 4} {
+		defer fmt.Println(value)
+	}
+	return nil
+}
+
 func goRoutine(ctx context.Context, number int) error {
 	runtime.LockOSThread()
 	defer runtime.UnlockOSThread()
@@ -55,4 +65,7 @@ func main() {
 	fmt.Printf("         main: Sleep %d\n", sleepTime)
 	time.Sleep((time.Duration(sleepTime) * time.Second))
 	fmt.Println("         main: stop")
+
+	deferTest(ctx)
+
 }
